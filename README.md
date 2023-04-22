@@ -1,5 +1,7 @@
 # GPT Test Generator
 
+Created by Matt Groff
+
 GPT Test Generator is a simple web app that generates test cases for your code using OpenAI's GPT-4 API. The app supports Jest React Test Renderer, Cypress Component Test, and Jest Node test types.
 
 ## Prerequisites
@@ -54,6 +56,7 @@ docker run -it -p 3000:3000 --env-file .env gpt-test-generator
 
 The app will be available at [http://localhost:3000](http://localhost:3000)
 
-
-
-
+## Running tests
+```bash
+bun test
+```
