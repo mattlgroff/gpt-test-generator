@@ -1,0 +1,11 @@
+{
+  "name": "bun",
+  "scripts": {
+    "start": "bun src/index.js"
+  },
+  "type": "module",
+  "dependencies": { "markdown-it": "^13.0.1" },
+  "devDependencies": {
+    "bun-types": "^0.5.8"
+  }
+}
