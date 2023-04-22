@@ -1,29 +1,32 @@
 import { describe, expect, test } from "bun:test";
-import { removeWhitespace, formDataToJson } from "../src/utils";
+import { removeWhitespace } from "../src/utils";
 
-describe("removeWhitespace function", () => {
-  test("removes newline characters and multiple spaces/tabs", () => {
-    const input = "    hello\nworld\r\n  ";
-    const expected = "hello\nworld";
-    expect(removeWhitespace(input)).toEqual(expected);
+describe("removeWhitespace", () => {
+  test("removes leading and trailing whitespace", () => {
+    const input = "  hello world  ";
+    const expectedOutput = "hello world";
+    const output = removeWhitespace(input);
+    expect(output).toEqual(expectedOutput);
   });
 
-  test("does not remove spaces/tabs within words", () => {
-    const input = "  hello   world  ";
-    const expected = "hello world";
-    expect(removeWhitespace(input)).toEqual(expected);
+  test("replaces multiple spaces and tabs with single space", () => {
+    const input = "hello \t\t   world";
+    const expectedOutput = "hello world";
+    const output = removeWhitespace(input);
+    expect(output).toEqual(expectedOutput);
   });
-});
 
-// Skipping for now because we'd need to mock the Request object
-describe("formDataToJson function", () => {
-  test.skip("converts form data to JSON object", async () => {
-    const formData = new FormData();
-    formData.append("name", "Alice");
-    formData.append("email", "alice@example.com");
-    const request = new Request("/", { method: "POST", body: formData });
-    const result = await formDataToJson(request);
-    const expected = { name: "Alice", email: "alice@example.com" };
-    expect(result).toEqual(expected);
+  test("preserves newlines", () => {
+    const input = "hello\nworld\n\n\n";
+    const expectedOutput = "hello\nworld";
+    const output = removeWhitespace(input);
+    expect(output).toEqual(expectedOutput);
+  });
+
+  test("handles empty string", () => {
+    const input = "";
+    const expectedOutput = "";
+    const output = removeWhitespace(input);
+    expect(output).toEqual(expectedOutput);
   });
 });
