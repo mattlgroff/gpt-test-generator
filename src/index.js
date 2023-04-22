@@ -1,23 +1,12 @@
+import { removeWhitespace, formDataToJson } from "./utils";
 import MarkdownIt from "markdown-it";
 const md = new MarkdownIt();
-
-function removeWhitespace(string) {
-  return string.replace(/[\r\n]+/g, "\n").replace(/[ \t]+/g, " ");
-}
-
-async function formDataToJson(req) {
-  const formData = new URLSearchParams(await req.text());
-  const obj = {};
-  for (const [key, value] of formData.entries()) {
-    obj[key] = value;
-  }
-  return obj;
-}
 
 const test_types = [
   "Jest React Test Renderer",
   "Cypress Component Test",
   "Jest Node",
+  "Bun Test"
 ];
 
 const server = Bun.serve({
@@ -304,6 +293,92 @@ const server = Bun.serve({
             });
             })
           `,
+          "Bun Test": `
+            Bun Test: Write tests using Bun's test runner.
+
+            Example:
+            import { expect, test } from "bun:test";
+
+            test("2 + 2", () => {
+              expect(2 + 2).toBe(4);
+            });
+
+            # Basic usage
+            To define a simple test:
+
+            import { expect, test } from "bun:test";
+
+            test("2 + 2", () => {
+              expect(2 + 2).toBe(4);
+            });
+            Tests can be grouped into suites with describe.
+
+            import { expect, test, describe } from "bun:test";
+
+            describe("arithmetic", () => {
+              test("2 + 2", () => {
+                expect(2 + 2).toBe(4);
+              });
+
+              test("2 * 2", () => {
+                expect(2 * 2).toBe(4);
+              });
+            });
+            Tests can be async.
+
+            import { expect, test } from "bun:test";
+
+            test("2 * 2", async () => {
+              const result = await Promise.resolve(2 * 2);
+              expect(result).toEqual(4);
+            });
+            Alternatively, use the done callback to signal completion. If you include the done callback as a parameter in your test definition, you must call it or the test will hang.
+
+            import { expect, test } from "bun:test";
+
+            test("2 * 2", done => {
+              Promise.resolve(2 * 2).then(result => {
+                expect(result).toEqual(4);
+                done();
+              });
+            });
+
+            # Setup and teardown
+            Perform per-test setup and teardown logic with beforeEach and afterEach.
+
+            import { expect, test } from "bun:test";
+
+            beforeEach(() => {
+              console.log("running test.");
+            });
+
+            afterEach(() => {
+              console.log("done with test.");
+            });
+
+            # Matchers
+            Bun implements the following matchers. Full Jest compatibility is on the roadmap; track progress here.
+            .not
+            .toBe()
+            .toEqual()
+            .toBeNull()
+            .toBeUndefined()
+            .toBeNaN()
+            .toBeDefined()
+            .toBeFalsy()
+            .toBeTruthy()
+            .toContain()
+            .toStrictEqual()
+            .toThrow()
+            .toHaveLength()
+            .toHaveProperty()
+            .toBeGreaterThan()
+            .toBeGreaterThanOrEqual()
+            .toBeLessThan()
+            .toBeLessThanOrEqual()
+            .toBeInstanceOf()
+            .toMatchSnapshot()
+            `,
         };
 
         const test_type_example = removeWhitespace(
